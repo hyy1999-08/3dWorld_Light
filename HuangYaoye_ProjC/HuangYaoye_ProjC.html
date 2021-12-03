@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<link href="HuangYaoye_ProjC.css" rel="stylesheet">
+    <meta charset="utf-8" />
+    <title>Pikachu</title>
+  </head>
+
+	<!--	Create the HTML5 'canvas' element in which we will run WebGL  -->
+  <body onload="main()" onresize="drawResize()" >
+		<canvas id="webgl" ></canvas>
+
+			<div id="display_box">
+				<hr> <!-- Draw a horizontal-line separator------------->
+				<!-- Make a 'div' element to hold changeable HTML made in our JavaScript file;
+					 (where? look inside main(), inside its 'tick()' function, where we
+					 display the 'current angle' value.
+				-->
+
+				 <!-- 这里是鼠标键盘控制------------->
+				Try keyboard & mouse click/drag inside the canvas, and:
+				<b>w, a, s, d</b> for camera movement
+				<br>
+				<b>←, ↓, ↑, →</b> for setting camera angle.
+				<br>
+				You can use <b>mouse</b> to drag the pikachu beside the world red axis.
+				<br>
+				<span id='KeyDownResult'  > </span>  <!--myKeyDown() modifies this span object--> 	
+				<br>
+				<span id='ArrowResult'  > </span>  <!--myKeyDown() modifies this span object--> 
+				<br>	
+				<!--
+				<br>
+				<span id='KeyModResult'   >  </span> myKeyDown() modifies this span object 
+				<span id='KeyDownResult'  > </span>  myKeyDown() modifies this span object 		
+				<br>
+
+				<br>
+				<span id='MouseAtResult'  >  Are you calling me? </span> myMouseMove() modifies this span object 
+			
+			     -->
+				<!--  Mouse click/drag amounts.  Look in 'console' for event reports;
+						the 'clear' button calls Javascript function 'clearDrag()'
+						whose sole purpose is to set global vars xMdragTot,yMdragTot ==0.0
+					Note we use these totals to rotate the triangle at upper left.
+				-->
+				<!-- This for CVV Mouse drag
+						<div id='Mouse'> Mouse Drag totals (CVV coords) </div>
+				<button type="button" onClick='clearDrag()'>Clear</button>
+				-->
+			
+				<!-- <div id="CurAngleDisplay"></div>  -->
+				<!-- <br>	for g_angle03 -->
+				<!-- <br>	for g_angle05 -->
+			</div>
+
+			<div id="ear_box">
+				<hr>
+				<span>Light position</span>
+					<!--BUTTONS: commands below create HTML push-buttons with labels
+						Spin <<, runStop, and Spin >>.  
+					When users click the button, HTML calls JavaScript functions
+						"spinDown()", "runStop()" and "spinUp()"   -->
+				<!-- <button type="button" onclick="runStop()">Run/Stop</button>
+				<button type="button" onclick="spinUp()">Speed >> </button> -->
+				<div class="slidecontainer">
+					<span id="slider_value0" style="color:red;font-weight:bold;">x:-5</span><br>
+					<input type="range" min="-10" max="20" value="-4" class="slider" id="lightx" onchange="show_lightvalue0(this.value)">
+				  </div>
+				<div class="slidecontainer">
+					<span id="slider_value1" style="color:greenyellow;font-weight:bold;">y:-5</span><br>
+				<input type="range" min="-10" max="20" value="-6" class="slider" id="lighty" onchange="show_lightvalue1(this.value)">
+				  </div>
+				<div class="slidecontainer">
+					<span id="slider_value2" style="color:lightblue;font-weight:bold;">z:3</span><br>
+					<input type="range" min="-10" max="20" value="4" class="slider" id="lighty" onchange="show_lightvalue2(this.value)">
+				</div>
+
+
+
+				</p>
+
+				</div>
+			<div id="MiniModel_box">
+			<hr> <!-- Draw a horizontal-line separator------------->
+			<button type="button" onclick="lightTurnOn()">Turn on/turn off light</button>
+			<div id="CurAngleDisplayForMiniModel"></div> 
+			<!-- Next, make a simple block of text 
+			-->
+			New Current Material (1~22): 
+			<input id='usrMaterial' size=10> 
+			<button type="button" onClick='Material_submit()'>Submit</button><BR> 
+			<div id= EditBoxOut></div>
+			<p>
+				<!--BUTTONS: commands below create HTML push-buttons with labels
+					Spin <<, runStop, and Spin >>.  
+				When users click the button, HTML calls JavaScript functions
+					"spinDown()", "runStop()" and "spinUp()"   -->
+			  <!-- <button type="button" onclick="spinDownForMiniModel()">Spin << </button> -->
+			  <!-- <button type="button" onclick="runStopForMiniModel()">Run/Stop</button>
+			  <button type="button" onclick="spinUpForMiniModel()">Spin >> </button> -->
+			</p>
+		    </div>
+			<div id="button_box">
+				<hr> <!-- Draw a horizontal-line separator------------->
+			<button type="button" onclick="VBO0toggle()">World_box hide/show</button>
+			</div>
+			<div id="button_box2">
+				<hr> <!-- Draw a horizontal-line separator------------->
+
+					<button type="button" onclick="VBO1toggle()">Gouraud shading hide/show</button>
+					<button type="button" onclick="Phong()">Phong/Blinn-Phong</button>
+			</div>
+			<div id="button_box2">
+				<hr> <!-- Draw a horizontal-line separator------------->
+					<button type="button" onclick="VBO2toggle()">Phong shading hide/show</button>
+					<button type="button" onclick="Phong2()">Phong/Blinn-Phong</button>
+
+			</div>
+			<div id="button_box2">
+				<hr> <!-- Draw a horizontal-line separator------------->
+				<span>Ear Control</span>
+				<button type="button" onclick="spinDown()">Speed << </button>
+				<button type="button" onclick="runStop()">Run/Stop</button>
+				<button type="button" onclick="spinUp()">Speed >> </button>
+
+			</div>
+			<div id="button_box2">
+				<hr> <!-- Draw a horizontal-line separator------------->
+				<span id="light_value0" style="color:black;font-weight:bold;">A_val:255,255,255</span><br>
+				<label for="colorpicker">Ambient Picker:</label>
+				<input type="color" id="Ambientpicker" value="#ffffff" onchange="change_lightAmbient(this.value)">
+
+
+			</div>
+			<div id="button_box2">
+				<hr> <!-- Draw a horizontal-line separator------------->
+				<span id="light_value1" style="color:black;font-weight:bold;">D_val:255,255,255</span><br>
+				<label for="colorpicker">Diffuse Picker:</label>
+				<input type="color" id="Diffusepicker" value="#ffffff" onchange="change_lightDiffuse(this.value)">
+
+			</div>
+			<div id="button_box2">
+				<hr> <!-- Draw a horizontal-line separator------------->
+				<span id="light_value2" style="color:black;font-weight:bold;">S_val:255,255,255</span><br>
+				<label for="colorpicker">Specular Picker:</label>
+				<input type="color" id="Specularpicker" value="#ffffff" onchange="change_lightSpecular(this.value)">
+
+
+			</div>
+
+
+
+
+
+
+       <script src="./lib/webgl-utils.js"></script>
+       <script src="./lib/webgl-debug.js"></script>
+       <script src="./lib/cuon-utils.js"></script>
+       <script src="./lib/cuon-matrix-quat03.js"></script>
+	   <!--	Finally, load in our own JavaScript program file.
+	   -->			
+       <!-- <script src="./JT_VBObox-Lib.js"></script> -->
+	   <script src="./lib/materials_Ayerdi04.js"></script>
+	   <script src="./HuangYaoye_ProjC_VBObox_Lib.js"></script>
+       <script src="./HuangYaoye_ProjC.js"></script>
+
+	</body>
+</html>
